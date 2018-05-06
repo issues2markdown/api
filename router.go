@@ -20,16 +20,15 @@ package api
 import (
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
-// StartServer ...
-func StartServer() error {
-	r := mux.NewRouter()
-
-	r.HandleFunc("/", GETHome).Methods("GET")
-
-	log.Println("issues2markdown API listening on :8081 ...")
-	return http.ListenAndServe(":8081", r)
+// GETHome ...
+func GETHome(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/markdown; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	markdown := `- [ ] org/repo : [Issue Title](https://github.com/org/repo/issues/1)`
+	_, err := w.Write([]byte(markdown))
+	if err != nil {
+		log.Fatal(err)
+	}
 }
