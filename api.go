@@ -18,6 +18,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -28,8 +29,14 @@ func StartServer() {
 	r := mux.NewRouter()
 	r.HandleFunc("/teapot", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusTeapot)
-		w.Write([]byte(`I'm a teapot`))
+		_, err := w.Write([]byte(`I'm a teapot`))
+		if err != nil {
+			log.Fatal(err)
+		}
 	})
 
-	http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":8080", r)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
