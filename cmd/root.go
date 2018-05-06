@@ -23,6 +23,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/issues2markdown/api"
 	"github.com/spf13/cobra"
 )
 
@@ -60,7 +61,7 @@ var RootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		log.Println("foo bar")
+		api.StartServer()
 	},
 }
 
