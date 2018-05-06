@@ -29,6 +29,7 @@ func StartServer() error {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", GETHome).Methods("GET")
+	r.HandleFunc("/version", GETVersion).Methods("GET")
 
 	log.Println("issues2markdown API listening on :8081 ...")
 	return http.ListenAndServe(":8081", r)

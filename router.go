@@ -32,3 +32,14 @@ func GETHome(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 }
+
+// GETVersion ...
+func GETVersion(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	versionInfo := ShowVersionInfo("version", "build")
+	_, err := w.Write([]byte(versionInfo))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
