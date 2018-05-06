@@ -19,6 +19,8 @@ package api_test
 
 import (
 	"testing"
+
+	"github.com/issues2markdown/api"
 )
 
 func TestShowVersionInfo(t *testing.T) {
