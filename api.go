@@ -25,7 +25,7 @@ import (
 )
 
 // StartServer ...
-func StartServer() {
+func StartServer() error {
 	r := mux.NewRouter()
 	r.HandleFunc("/teapot", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusTeapot)
@@ -34,9 +34,5 @@ func StartServer() {
 			log.Fatal(err)
 		}
 	})
-
-	err := http.ListenAndServe(":8080", r)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return http.ListenAndServe(":8080", r)
 }

@@ -61,7 +61,7 @@ var RootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		api.StartServer()
+		log.Fatal(api.StartServer())
 	},
 }
 
