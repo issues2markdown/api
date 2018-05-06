@@ -55,6 +55,7 @@ lint:	## Lint source code
 deps:	## Install package dependencies
 	go get -t -d -u github.com/spf13/cobra/cobra
 	go get -t -d -u github.com/issues2markdown/issues2markdown
+	go get -u github.com/gorilla/mux
 	
 dev-deps:	## Install dev dependencies
 	go get -t -u github.com/mattn/goveralls
