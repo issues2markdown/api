@@ -15,31 +15,4 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package api
-
-import (
-	"log"
-	"net/http"
-)
-
-// GETHome ...
-func GETHome(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/markdown; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	markdown := `- [ ] org/repo : [Issue Title](https://github.com/org/repo/issues/1)`
-	_, err := w.Write([]byte(markdown))
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-// GETVersion ...
-func GETVersion(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	versionInfo := "issues2markdown API version info"
-	_, err := w.Write([]byte(versionInfo))
-	if err != nil {
-		log.Fatal(err)
-	}
-}
+package api_test

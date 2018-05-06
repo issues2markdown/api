@@ -61,7 +61,16 @@ var RootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		log.Fatal(api.StartServer())
+		options := api.ServerOptions{
+			Version: cmd.Version,
+			Address: ":8081",
+		}
+		server, err := api.NewServer(options)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Fatal(server.Start())
 	},
 }
 
