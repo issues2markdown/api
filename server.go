@@ -24,19 +24,28 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// StartServer ...
-func StartServer() {
-	r := mux.NewRouter()
-	r.HandleFunc("/teapot", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusTeapot)
-		_, err := w.Write([]byte(`I'm a teapot`))
-		if err != nil {
-			log.Fatal(err)
-		}
-	})
+// Server ...
+type Server struct {
+	Options ServerOptions
+	router  *mux.Router
+}
 
-	err := http.ListenAndServe(":8080", r)
-	if err != nil {
-		log.Fatal(err)
+// NewServer ...
+func NewServer(options ServerOptions) (*Server, error) {
+	server := &Server{
+		Options: options,
 	}
+	server.router = mux.NewRouter()
+
+	server.router.HandleFunc("/", GETHome).Methods("GET")
+	server.router.HandleFunc("/version", GETVersion).Methods("GET")
+
+	return server, nil
+}
+
+// Start ...
+func (s *Server) Start() error {
+	log.Printf("issues2markdown API listening on %s ...\n", s.Options.Address)
+
+	return http.ListenAndServe(s.Options.Address, s.router)
 }
