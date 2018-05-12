@@ -37,6 +37,7 @@ func NewServer(options ServerOptions) (*Server, error) {
 	}
 	server.router = mux.NewRouter()
 
+	server.router.HandleFunc("/", GETHomeOptions).Methods("OPTIONS")
 	server.router.HandleFunc("/", GETHome).Methods("GET")
 	server.router.HandleFunc("/version", GETVersion).Methods("GET")
 

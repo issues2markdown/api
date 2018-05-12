@@ -28,6 +28,13 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// GETHomeOptions ...
+func GETHomeOptions(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, Authorization")
+	w.WriteHeader(http.StatusOK)
+}
+
 // GETHome ...
 func GETHome(w http.ResponseWriter, r *http.Request) {
 	// Github Token
@@ -78,6 +85,7 @@ func GETHome(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// return response
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "text/markdown; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write([]byte(result))
@@ -88,7 +96,6 @@ func GETHome(w http.ResponseWriter, r *http.Request) {
 
 // GETVersion ...
 func GETVersion(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	versionInfo := "issues2markdown API version info"
 	_, err := w.Write([]byte(versionInfo))
