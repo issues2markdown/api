@@ -18,16 +18,64 @@
 package api
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"strings"
+
+	"github.com/google/go-github/github"
+	"github.com/issues2markdown/issues2markdown"
+	"golang.org/x/oauth2"
 )
 
 // GETHome ...
 func GETHome(w http.ResponseWriter, r *http.Request) {
+	// Github Token
+	AuthorizationHeader := r.Header.Get("Authorization")
+	githubToken := strings.Split(AuthorizationHeader, " ")[1]
+	if githubToken == "" {
+		log.Printf("ERROR: A valid Github Token is required\n")
+		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+		return
+	}
+
+	ctx := context.Background()
+
+	// create github provider
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: githubToken},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+	issuesProvider := github.NewClient(tc)
+
+	// create api client
+	i2md, err := issues2markdown.NewIssuesToMarkdown(issuesProvider)
+	if err != nil {
+		log.Fatalf("ERROR: %s\n", err)
+	}
+
+	log.Println("Querying data ...")
+	qoptions := issues2markdown.NewQueryOptions(i2md.Username)
+
+	// execute query
+	issues, err := i2md.Query(qoptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Rendering data ...")
+	roptions := issues2markdown.NewRenderOptions()
+
+	// render results
+	result, err := i2md.Render(issues, roptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// return response
 	w.Header().Set("Content-Type", "text/markdown; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	markdown := `- [ ] org/repo : [Issue Title](https://github.com/org/repo/issues/1)`
-	_, err := w.Write([]byte(markdown))
+	_, err = w.Write([]byte(result))
 	if err != nil {
 		log.Fatal(err)
 	}
