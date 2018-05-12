@@ -18,7 +18,6 @@
 package cmd
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -49,18 +48,6 @@ var RootCmd = &cobra.Command{
 			log.SetOutput(os.Stdout)
 		}
 
-		// Github Token
-		githubToken := os.Getenv("GITHUB_TOKEN")
-		// --github-token
-		if githubTokenFlag != "" {
-			githubToken = githubTokenFlag
-		}
-		if githubToken == "" {
-			fmt.Printf("ERROR: A valid Github Token is required\n")
-			cmd.Usage()
-			os.Exit(1)
-		}
-
 		options := api.ServerOptions{
 			Version: cmd.Version,
 			Address: ":8081",
@@ -88,7 +75,6 @@ func init() {
 	// Setup Cobra
 	cobra.OnInitialize(initConfig)
 	RootCmd.Flags().BoolVarP(&verboseFlag, "verbose", "v", false, "enable verbose mode")
-	RootCmd.Flags().StringVarP(&githubTokenFlag, "github-token", "", "", "github token")
 }
 
 // initConfig reads in config file and ENV variables if set.
