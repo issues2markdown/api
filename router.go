@@ -31,8 +31,13 @@ import (
 // GETHome ...
 func GETHome(w http.ResponseWriter, r *http.Request) {
 	// Github Token
-	AuthorizationHeader := r.Header.Get("Authorization")
-	githubToken := strings.Split(AuthorizationHeader, " ")[1]
+	authorizationHeader := r.Header.Get("Authorization")
+	if len(authorizationHeader) < 1 {
+		log.Printf("ERROR: An Authorization header is required\n")
+		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+		return
+	}
+	githubToken := strings.Split(authorizationHeader, " ")[1]
 	if githubToken == "" {
 		log.Printf("ERROR: A valid Github Token is required\n")
 		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
