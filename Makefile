@@ -110,6 +110,4 @@ dist-windows:
 dist-clean: clean 	# Clean distribution files
 	rm -rf ${DIST_FOLDER}
 
-.PHONY: help
-help:	## Show this help
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+include Makefile.help.mk
