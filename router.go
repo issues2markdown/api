@@ -67,10 +67,11 @@ func GETHome(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("Querying data ...")
-	qoptions := issues2markdown.NewQueryOptions(i2md.Username)
+	qoptions := issues2markdown.NewQueryOptions()
+	qoptions.Organization = "repejota"
 
 	// execute query
-	issues, err := i2md.Query(qoptions)
+	issues, err := i2md.Query(qoptions, "")
 	if err != nil {
 		log.Fatal(err)
 	}
