@@ -24,6 +24,6 @@ import (
 
 func (s *Server) handleVersion() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("fooo")
+		fmt.Fprintf(w, "issues2markdown API %s", s.Options.Version)
 	}
 }

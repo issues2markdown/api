@@ -37,6 +37,8 @@ func NewServer(options ServerOptions) (*Server, error) {
 	}
 	server.router = mux.NewRouter()
 
+	server.routes()
+
 	return server, nil
 }
 
