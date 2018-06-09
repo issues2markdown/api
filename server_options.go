@@ -23,4 +23,6 @@ type ServerOptions struct {
 	Version string
 	// Address
 	Address string
+	// GitHub Token
+	GitHubToken string
 }

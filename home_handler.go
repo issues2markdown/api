@@ -20,10 +20,20 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 func (s *Server) handleHome() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// Git Hub Token
+		gitHubToken := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
+		s.Options.GitHubToken = gitHubToken
+
+		if s.Options.GitHubToken == "" {
+			http.Error(w, "A valid GitHub Token is required", http.StatusBadRequest)
+			return
+		}
+
 		fmt.Fprintf(w, "home handler")
 	}
 }
