@@ -6,10 +6,8 @@ issues2markdown REST API
 * License [![License][License-Image]][License-Url]
 
 * Test Coverage Master [![Coverage Status](https://coveralls.io/repos/github/issues2markdown/api/badge.svg?branch=master)](https://coveralls.io/github/issues2markdown/api?branch=master)
-* Test Coverage Develop [![Coverage Status](https://coveralls.io/repos/github/issues2markdown/api/badge.svg?branch=develop)](https://coveralls.io/github/issues2markdown/api?branch=develop)
 
 * Test Status Master [![CircleCI](https://circleci.com/gh/issues2markdown/api/tree/master.svg?style=svg)](https://circleci.com/gh/issues2markdown/api/tree/master)
-* Test Status Develop [![CircleCI](https://circleci.com/gh/issues2markdown/api/tree/develop.svg?style=svg)](https://circleci.com/gh/issues2markdown/api/tree/develop)
 
 * Golang ReportCard [![Go Report Card](https://goreportcard.com/badge/github.com/issues2markdown/api)](https://goreportcard.com/report/github.com/issues2markdown/api)
 
