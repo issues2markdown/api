@@ -18,9 +18,15 @@
 package api
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
+
+	"github.com/google/go-github/github"
+	"github.com/issues2markdown/issues2markdown"
+	"golang.org/x/oauth2"
 )
 
 func (s *Server) handleHome() http.HandlerFunc {
@@ -34,6 +40,44 @@ func (s *Server) handleHome() http.HandlerFunc {
 			return
 		}
 
-		fmt.Fprintf(w, "home handler")
+		ctx := context.Background()
+
+		// create github client
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{
+				AccessToken: s.Options.GitHubToken,
+			},
+		)
+		tc := oauth2.NewClient(ctx, ts)
+		issuesProvider := github.NewClient(tc)
+
+		i2md, err := issues2markdown.NewIssuesToMarkdown(issuesProvider)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		log.Println("Querying data ...")
+		qoptions := issues2markdown.NewQueryOptions()
+		qoptions.Organization = i2md.Username
+
+		// execute query
+		var args []string
+		issues, err := i2md.Query(qoptions, strings.Join(args, " "))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		log.Println("Rendering data ...")
+		roptions := issues2markdown.NewRenderOptions()
+		result, err := i2md.Render(issues, roptions)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "text/markdown; charset=UTF-8")
+		fmt.Fprintf(w, result)
 	}
 }
