@@ -59,7 +59,7 @@ func (s *Server) handleHome() http.HandlerFunc {
 
 		log.Println("Querying data ...")
 		qoptions := issues2markdown.NewQueryOptions()
-		qoptions.Organization = i2md.Username
+		qoptions.Organization = i2md.User.GetLogin()
 
 		// execute query
 		var args []string
