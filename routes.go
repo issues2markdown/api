@@ -17,12 +17,7 @@
 
 package api
 
-// ServerOptions ...
-type ServerOptions struct {
-	// Version is the current version number
-	Version string
-	// Address
-	Address string
-	// GitHub Token
-	GitHubToken string
+func (s *Server) routes() {
+	s.router.HandleFunc("/", s.handleHome())
+	s.router.HandleFunc("/version", s.handleVersion())
 }

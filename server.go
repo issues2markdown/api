@@ -37,16 +37,14 @@ func NewServer(options ServerOptions) (*Server, error) {
 	}
 	server.router = mux.NewRouter()
 
-	server.router.HandleFunc("/", GETHomeOptions).Methods("OPTIONS")
-	server.router.HandleFunc("/", GETHome).Methods("GET")
-	server.router.HandleFunc("/version", GETVersion).Methods("GET")
+	server.routes()
 
 	return server, nil
 }
 
 // Start ...
 func (s *Server) Start() error {
-	log.Printf("issues2markdown API listening on %s ...\n", s.Options.Address)
+	log.Printf("issues2markdown API listening at %s ...\n", s.Options.Address)
 
 	return http.ListenAndServe(s.Options.Address, s.router)
 }

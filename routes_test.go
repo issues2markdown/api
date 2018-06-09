@@ -15,14 +15,4 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package api
-
-// ServerOptions ...
-type ServerOptions struct {
-	// Version is the current version number
-	Version string
-	// Address
-	Address string
-	// GitHub Token
-	GitHubToken string
-}
+package api_test

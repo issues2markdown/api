@@ -17,12 +17,13 @@
 
 package api
 
-// ServerOptions ...
-type ServerOptions struct {
-	// Version is the current version number
-	Version string
-	// Address
-	Address string
-	// GitHub Token
-	GitHubToken string
+import (
+	"fmt"
+	"net/http"
+)
+
+func (s *Server) handleVersion() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "issues2markdown API %s", s.Options.Version)
+	}
 }
