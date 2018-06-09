@@ -17,7 +17,13 @@
 
 package api
 
-func (s *Server) routes() {
-	s.router.HandleFunc("/", s.handleHome())
-	s.router.HandleFunc("/version", s.handleVersion())
+import (
+	"fmt"
+	"net/http"
+)
+
+func (s *Server) handleHome() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "home handler")
+	}
 }
