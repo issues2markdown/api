@@ -15,4 +15,15 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package api_test
+package api
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func (s *Server) handleVersion() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("fooo")
+	}
+}

@@ -17,32 +17,6 @@
 
 package api
 
-import (
-	"log"
-	"net/http"
-
-	"github.com/gorilla/mux"
-)
-
-// Server ...
-type Server struct {
-	Options ServerOptions
-	router  *mux.Router
-}
-
-// NewServer ...
-func NewServer(options ServerOptions) (*Server, error) {
-	server := &Server{
-		Options: options,
-	}
-	server.router = mux.NewRouter()
-
-	return server, nil
-}
-
-// Start ...
-func (s *Server) Start() error {
-	log.Printf("issues2markdown API listening at %s ...\n", s.Options.Address)
-
-	return http.ListenAndServe(s.Options.Address, s.router)
+func (s *Server) routes() {
+	s.router.HandleFunc("/version", s.handleVersion())
 }

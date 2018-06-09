@@ -22,7 +22,7 @@ version:	## Show version information
 # Testing
 
 .PHONY: test
-test:	## Execute package tests 
+test:		## Execute package tests 
 	go test -v $(PACKAGES)
 
 .PHONY: cover-profile
@@ -34,11 +34,12 @@ cover-profile:
 	rm -rf coverage.out
 
 .PHONY: cover
-cover: cover-profile	## Generate test coverage data
+cover: cover-profile
+cover: 		## Generate test coverage data
 	go tool cover -func=coverage-all.out
 
 .PHONY: cover-html
-cover-html: cover-profile	## Generate coverage report
+cover-html: cover-profile
 	go tool cover -html=coverage-all.out
 
 .PHONY: coveralls
@@ -47,18 +48,19 @@ coveralls:
 
 # Lint
 
-lint:	## Lint source code
+lint:		## Lint source code
 	gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow
 
 # Dependencies
 
-deps:	## Install package dependencies
+deps:		## Install package run dependencies
 	go get -t -d -u github.com/spf13/cobra/cobra
 	go get -t -d -u github.com/issues2markdown/issues2markdown
 	go get -u github.com/gorilla/mux
 	go get -u golang.org/x/oauth2
-	
-dev-deps:	## Install dev dependencies
+
+dev-deps: deps
+dev-deps:	## Install package dev and run dependencies
 	go get -t -u github.com/mattn/goveralls
 	go get -t -u github.com/inconshreveable/mousetrap
 	go get -t -u github.com/alecthomas/gometalinter
@@ -67,7 +69,7 @@ dev-deps:	## Install dev dependencies
 # Cleaning up
 
 .PHONY: clean
-clean:	## Delete generated development environment
+clean:		## Delete generated development environment
 	go clean
 	rm -rf ${BINARY}
 	rm -rf ${BINARY}.exe
@@ -81,7 +83,8 @@ godoc-serve:	## Serve documentation (godoc format) for this package at port HTTP
 # Distribution
 
 .PHONY: dist
-dist: clean dist-prepare dist-darwin dist-linux dist-windows	## Generate distribution packages
+dist: clean dist-prepare dist-darwin dist-linux dist-windows	
+dist: 		## Generate distribution packages
 
 dist-prepare:
 	mkdir -p dist
@@ -107,7 +110,7 @@ dist-windows:
 	zip ${DIST_FOLDER}/${BINARY}-${VERSION}-windows-386.zip ${BINARY}.exe ${DIST_INCLUDE_FILES}
 	rm -rf ${BINARY}.exe
 
-dist-clean: clean 	# Clean distribution files
+dist-clean: clean 	
 	rm -rf ${DIST_FOLDER}
 
 include Makefile.help.mk
