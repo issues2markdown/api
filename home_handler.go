@@ -63,6 +63,10 @@ func (s *Server) handleHome() http.HandlerFunc {
 
 		// execute query
 		var args []string
+		query := r.URL.Query().Get("q")
+		if query != "" {
+			args = append(args, query)
+		}
 		issues, err := i2md.Query(qoptions, strings.Join(args, " "))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
